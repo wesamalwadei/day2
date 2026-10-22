@@ -12,6 +12,17 @@ llm = ChatOpenAI(base_url="https://openrouter.ai/api/v1",
                  max_tokens=6000)
 
 PROMPT_TEMPLATE = open("prompt_template.md", encoding="utf-8").read()   # your Lab 1.2 v1.1
+VALUES = {
+    "STACK": "FastAPI + Pydantic v2 (Python 3.12)",
+    "ENTITY": "Asset (plant equipment maintenance record)",
+    "FIELDS": "asset_id, asset_type, unit, location, install_year, last_inspection, operating_hours, status, criticality, notes (all strings except install_year and operating_hours which are integers; notes may be empty)",
+    "ENDPOINTS": "POST /assets (create); GET /assets (list, filters ?status= ?unit= ?criticality=); GET /assets/{asset_id} (read one, 404 if missing); PUT /assets/{asset_id} (update, reject changes to asset_id); DELETE /assets/{asset_id} (soft delete preferred)",
+    "VALIDATION_RULES": "asset_id format XXX-nnnn (3 letters, dash, 4 digits); criticality must be High, Medium or Low; status is free text such as In Service, Standby, Flagged for Inspection, Under Maintenance; asset_id is immutable",
+    "SEED_FILE": "maintenance_assets.csv",
+    "TEST_REQUIREMENTS": "pytest with FastAPI TestClient; for every endpoint one happy-path test and one failure test; use asset_ids that exist in the CSV",
+}
+for _k, _v in VALUES.items():
+    PROMPT_TEMPLATE = PROMPT_TEMPLATE.replace("{{" + _k + "}}", _v)
 REQUIRED = ["main.py", "index.html", "test_api.py", "README.md"]
 
 
@@ -36,6 +47,7 @@ def generate_node(state: State):
     r = llm.invoke(
         f"{PROMPT_TEMPLATE}\n\nFILE PLAN:\n{state['plan']}\n"
         f"Known issues to fix: {state['errors']}\n"
+        f"You MUST return ALL of these files: {REQUIRED}\n"
         'Return STRICT JSON: {"files": {"path": "content", ...}}')
     txt = r.content.strip()
     txt = txt.removeprefix("```json").removeprefix("```").removesuffix("```")

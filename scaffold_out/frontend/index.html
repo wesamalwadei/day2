@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Maintenance Records</title>
+</head>
+<body>
+    <h1>Flagged Assets</h1>
+    <div id="assets-list"></div>
+    <script>
+        fetch('/assets?status=Flagged for Inspection')
+            .then(response => response.json())
+            .then(data => {
+                const assetsList = document.getElementById('assets-list');
+                data.forEach(asset => {
+                    const assetDiv = document.createElement('div');
+                    assetDiv.innerText = `ID: ${asset.asset_id}, Type: ${asset.asset_type}, Status: ${asset.status}`;
+                    assetsList.appendChild(assetDiv);
+                });
+            });
+    </script>
+</body>
+</html>

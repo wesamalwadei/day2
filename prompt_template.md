@@ -1,4 +1,4 @@
-
+﻿
 # PROMPT TEMPLATE — CRUD API Builder (v1.1)
 
 ROLE: You are a senior Python backend engineer who writes
@@ -19,7 +19,7 @@ CONSTRAINTS:
 - Tests must use asset_ids that exist in {{SEED_FILE}}; empty CSV cells (e.g. notes) must become None.
 
 OUTPUT FORMAT: one fenced code block per file, preceded by the file
-path. Files: main.py, models.py, test_api.py, README.md. No prose
+path. Files: main.py, index.html, test_api.py, README.md. No prose
 between files.
 
 DEFINITION OF DONE: `uvicorn main:app` starts; `pytest -q` passes;
