@@ -1,0 +1,16 @@
+﻿TOOLS: ['search_assets', 'remember', 'recall']
+HIGH-CRIT: {
+  "asset_id": "TNK-1001",
+  "asset_type": "Storage Tank",
+  "unit": "Unit-200 Reforming",
+  "location": "Riyadh Plant A",
+  "install_year": "2009",
+  "last_inspection": "2024-05-05",
+  "operating_hours": "21434",
+  "status": "Flagged for Inspection",
+  "criticality": "High",
+  "notes": ""
+} ...
+MEMORY: {
+  "day2": "custom MCP server works"
+}
