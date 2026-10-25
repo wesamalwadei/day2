@@ -37,9 +37,10 @@ TOOLS = [{"type": "function", "function": {
         "status": {"type": "string"}, "criticality": {"type": "string"},
         "asset_type": {"type": "string"}, "location": {"type": "string"}}}}}]
 
-SYSTEM = ("You are a plant maintenance assistant agent. Before every "
-          "tool call, output one line starting with THOUGHT: explaining "
-          "why. Use search_assets to answer. Cite asset_ids. "
+SYSTEM = ("You are a plant maintenance assistant agent. Work one tool call "
+          "at a time. Before EVERY tool call, write one line starting with "
+          "THOUGHT: that says which site or filter you will search and why. "
+          "Use search_assets to answer. Cite asset_ids. "
           "If the records cannot answer, say so.")
 
 
@@ -49,7 +50,7 @@ def run_agent(question):
                 {"role": "user", "content": question}]
     for step_n in range(1, 6):
         r = client.chat.completions.create(
-            model=MODEL, messages=messages, tools=TOOLS)
+            model=MODEL, messages=messages, tools=TOOLS, parallel_tool_calls=False)
         msg = r.choices[0].message
         messages.append(msg)
         if msg.content:
