@@ -1,0 +1,9 @@
+
+@startuml
+[*] --> plan
+plan --> generate : file plan
+generate --> write : files JSON
+write --> verify
+verify --> generate : errors & attempts < 3
+verify --> [*] : clean, or attempt limit reached
+@enduml
